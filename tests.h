@@ -5,6 +5,6 @@
 
 #include <stdio.h>
 #include <iostream>
-double test(unsigned int v);
+double test(unsigned int v, unsigned int n);
 
 #endif

@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "hashfunctions.h"
 
 struct hash{
     unsigned int data;
@@ -13,9 +14,10 @@ hash::hash() {
 
 struct list {
     hash *first;  								// wskaźnik na początek listy
-    void add_hash(unsigned int data, int index);
-    void del_hash(int index);
-    void display_list ();
+    void addHash(unsigned int data, int index);
+	void genHashes(unsigned int n);
+    void delHash(int index);
+    void displayList ();
     list();
 };
  
@@ -23,7 +25,7 @@ list::list() {
     first = 0;       							
 }
 
-void list::add_hash(unsigned int data, int index){
+void list::addHash(unsigned int data, int index){
     hash *new_hash = new hash;   				// tworzy nowy element listy
 												
     new_hash->data = data;						// wypełniamy naszymi danymi
@@ -45,7 +47,7 @@ void list::add_hash(unsigned int data, int index){
     }
 }
 
-void list::del_hash(int index){
+void list::delHash(int index){
     if (index>=2)
     {
         int j = 1;								// do usuniecia srodkowego elementu potrzebujemy wskaznika na hash n-1										
@@ -69,7 +71,7 @@ void list::del_hash(int index){
     }
 }
 
-void list::display_list(){									
+void list::displayList(){									
     hash *temp = first;							// wskaznik na pierszy element listy
     while (temp)								// przewijamy wskazniki na nastepne elementy
     {
@@ -78,19 +80,44 @@ void list::display_list(){
     }
 }
 
-double test(unsigned int v){
-	/* v = 1-64 2-96 3-128
+void list::genHashes(unsigned int n)
+{
+	static const char alphanum[] =
+		"0123456789"
+		"!@#$%^&*"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+	int stringLength = sizeof(alphanum) - 1;
+	std::string str;
+
+	hash *new_hash = new hash;
+	list HashList;
+	
+	for (unsigned int i = 0; i < n; i++) {
+		str = alphanum[rand() % stringLength];
+		unsigned int data = SDBMHash(str);
+		hash->data = data;
+		//HashList.addHash(Hash.data, i);
+	}
+}
+
+double test(unsigned int v, unsigned int n){
+	/* v = 1. 64B; 2. 96B; 3. 128B
 	 * n - how many hashes we generate
 	 * we need hash functions or table with hashes
 	 * if equal then we do sth
 	 * eff = n-retr/n
 	 *
 	 */
-	double eff = 0;
 	
+	hash Hash;
+	list HashList;
+	std::string str;
+	double eff = 0;
 	if ( v == 1 )
 	{
-		
+		HashList.genHashes(n);
+		HashList.displayList();
 		return eff;
 	}	
 	else if ( v == 2 )
