@@ -91,18 +91,18 @@ unsigned int BKDRHash(const std::string& str)
 /* End Of BKDR Hash Function */
 
 
+/*hash function*/
 unsigned int SDBMHash(const std::string& str)
 {
 	unsigned int hash = 0;
 
-	for (std::size_t i = 0; i < str.length(); i++)
+	for (size_t i = 0; i < str.length(); i++)
 	{
 		hash = str[i] + (hash << 6) + (hash << 16) - hash;
 	}
 
 	return hash;
 }
-/* End Of SDBM Hash Function */
 
 
 unsigned int DJBHash(const std::string& str)

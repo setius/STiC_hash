@@ -1,7 +1,7 @@
 #include "tests.h"
 
 struct hash{
-    string data;
+    unsigned int data;
     int index;								
     hash *next;    								// wskaźnik na następny element
     hash();        								
@@ -13,7 +13,7 @@ hash::hash() {
 
 struct list {
     hash *first;  								// wskaźnik na początek listy
-    void add_hash(string data, int index);
+    void add_hash(unsigned int data, int index);
     void del_hash(int index);
     void display_list ();
     list();
@@ -23,7 +23,7 @@ list::list() {
     first = 0;       							
 }
 
-void list::add_hash(string data, int index){
+void list::add_hash(unsigned int data, int index){
     hash *new_hash = new hash;   				// tworzy nowy element listy
 												
     new_hash->data = data;						// wypełniamy naszymi danymi
@@ -45,23 +45,23 @@ void list::add_hash(string data, int index){
     }
 }
 
-void list::delete_hash(int index){
+void list::del_hash(int index){
     if (index>=2)
     {
         int j = 1;								// do usuniecia srodkowego elementu potrzebujemy wskaznika na hash n-1										
-        hash *temp = first;		                // wskaznik *temp bedzie wskaznikiem na hash poprzedzajaca hash usuwana
+        hash *temp = first;		                // wskaznik *temp bedzie wskaznikiem na hash poprzedzajacy hash usuwany
 		
         while (temp)		
         {		
-			if ((j+1)==index) break;			// sprawdzamy czy wskaznik jest na hash n-1 niz usuwana      
+			if ((j+1)==index) break;			// sprawdzamy czy wskaznik jest na hash n-1 niz usuwany      
 												// jezeli nie to przewijamy petle do przodu
             temp = temp->next;
             j++;
         }
 											
 		if (temp->next->next==0)				// wskaznik *temp wskazuje teraz na hash n-1
-		    temp->next = 0;						// nadpisujemy wkaznik ash n na hash n+1
-												// bezpowrotnie tracimy hash n-ta
+		    temp->next = 0;						// nadpisujemy wskaznik hash n na hash n+1
+												// bezpowrotnie tracimy hash n-ty
 		else								
 		    temp->next = temp->next->next;		// dodatkowo sprawdzamy czy aby nie jest to ostatni element
 												// wtedy nalezy wyzerowac ostatni wskaznik
@@ -73,13 +73,12 @@ void list::display_list(){
     hash *temp = first;							// wskaznik na pierszy element listy
     while (temp)								// przewijamy wskazniki na nastepne elementy
     {
-        cout << "data: " << temp->data << " index: " << temp->number << endl;
+        std::cout << "data: " << temp->data << " index: " << temp->index << std::endl;
         temp=temp->next;
     }
 }
 
-double test(unsigned int v, unsigned int tab[n])
-{
+double test(unsigned int v){
 	/* v = 1-64 2-96 3-128
 	 * n - how many hashes we generate
 	 * we need hash functions or table with hashes
@@ -87,7 +86,7 @@ double test(unsigned int v, unsigned int tab[n])
 	 * eff = n-retr/n
 	 *
 	 */
-	double eff;
+	double eff = 0;
 	
 	if ( v == 1 )
 	{
@@ -107,6 +106,5 @@ double test(unsigned int v, unsigned int tab[n])
 		std::cout << "Error, wrong length" << std::endl;
 		return 0;
 	}
-	
-	
 }
+
