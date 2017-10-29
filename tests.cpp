@@ -94,7 +94,7 @@ void list::genHashes(unsigned int n)
 	list HashList;
 	
 	for (unsigned int i = 0; i < n; i++) {
-		str = alphanum[rand() % stringLength];
+		str = alphanum[rand() % stringLength]; //generacja losowego stringa z tablicy charow
 		unsigned int data = SDBMHash(str);
 		hash->data = data;
 		//HashList.addHash(Hash.data, i);
