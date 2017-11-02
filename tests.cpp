@@ -15,7 +15,7 @@ hash::hash() {
 struct list {
     hash *first;  								// wskaźnik na początek listy
     void addHash(unsigned int data, int index);
-	void genHashes(unsigned int n);
+	void compHash ();
     void delHash(int index);
     void displayList ();
     list();
@@ -47,40 +47,110 @@ void list::addHash(unsigned int data, int index){
     }
 }
 
-void list::delHash(int index){
-    if (index>=2)
-    {
-        int j = 1;								// do usuniecia srodkowego elementu potrzebujemy wskaznika na hash n-1										
-        hash *temp = first;		                // wskaznik *temp bedzie wskaznikiem na hash poprzedzajacy hash usuwany
+void list::compHash() {
+	int index=1;
+	hash *temp = first;
+	if(temp->data = temp->next->data){
+		if (index == 1)
+		{
+			first = temp->next; //poczatek listy, 1 el. wskazuje na 2 el. itd..
+		}
 		
-        while (temp)		
-        {		
-			if ((j+1)==index) break;			// sprawdzamy czy wskaznik jest na hash n-1 niz usuwany      
-												// jezeli nie to przewijamy petle do przodu
-            temp = temp->next;
-            j++;
-        }
-											
-		if (temp->next->next==0)				// wskaznik *temp wskazuje teraz na hash n-1
-		    temp->next = 0;						// nadpisujemy wskaznik hash n na hash n+1
-												// bezpowrotnie tracimy hash n-ty
-		else								
-		    temp->next = temp->next->next;		// dodatkowo sprawdzamy czy aby nie jest to ostatni element
-												// wtedy nalezy wyzerowac ostatni wskaznik
-												// jezeli nie byl to ostatni element    
-    }
+		// jeżeli nie jest to pierwszy element
+		if (index >= 2)
+		{
+			int j = 1;
+
+			// do usuniecia srodkowego elemetnu potrzebujemy wskaznika na osobe n-1
+			// wskaznik *temp bedzie wskaznikiem na osobe poprzedzajaca osobe usuwana
+			hash *temp = first;
+
+			while (temp)
+			{
+				// sprawdzamy czy wskaznik jest na osobie n-1 niz usuwana
+				if ((j + 1) == index) break;
+
+				// jezeli nie to przewijamy petle do przodu
+				temp = temp->next;
+				j++;
+			}
+
+			// wskaznik *temp wskazuje teraz na osobe n-1
+			// nadpisujemy wkaznik osoby n na osobe n+1
+			// bezpowrotnie tracimy osobe n-ta
+
+			// dodatkowo sprawdzamy czy aby nie jest to ostatni element
+			// wtedy nalezy wyzerowac ostatni wskaznik
+			if (temp->next->next == 0)
+				temp->next = 0;
+
+			// jezeli nie byl to ostatni element
+			else
+				temp->next = temp->next->next;
+		}
+	}
+		
+	else {
+		temp = temp->next;
+		index++;
+	}
 }
+
+
+void list::delHash(int index){
+	// jezeli to pierwszy element listy
+	if (index == 1)
+	{
+		hash *temp = first;
+		first = temp->next; //poczatek listy, 1 el. wskazuje na 2 el. itd..
+	}
+
+	// jeżeli nie jest to pierwszy element
+	if (index >= 2)
+	{
+		int j = 1;
+
+		// do usuniecia srodkowego elemetnu potrzebujemy wskaznika na osobe n-1
+		// wskaznik *temp bedzie wskaznikiem na osobe poprzedzajaca osobe usuwana
+		hash *temp = first;
+
+		while (temp)
+		{
+			// sprawdzamy czy wskaznik jest na osobie n-1 niz usuwana
+			if ((j + 1) == index) break;
+
+			// jezeli nie to przewijamy petle do przodu
+			temp = temp->next;
+			j++;
+		}
+
+		// wskaznik *temp wskazuje teraz na osobe n-1
+		// nadpisujemy wkaznik osoby n na osobe n+1
+		// bezpowrotnie tracimy osobe n-ta
+
+		// dodatkowo sprawdzamy czy aby nie jest to ostatni element
+		// wtedy nalezy wyzerowac ostatni wskaznik
+		if (temp->next->next == 0)
+			temp->next = 0;
+
+		// jezeli nie byl to ostatni element
+		else
+			temp->next = temp->next->next;
+	}
+}
+
 
 void list::displayList(){									
     hash *temp = first;							// wskaznik na pierszy element listy
     while (temp)								// przewijamy wskazniki na nastepne elementy
     {
-        std::cout << "data: " << temp->data << " index: " << temp->index << std::endl;
+        std::cout<< std::hex << "data: " << temp->data << std::dec << " index: " << temp->index << std::endl;
         temp=temp->next;
     }
+	std::cout << "-----------------------------------" << std::endl;
 }
 
-void list::genHashes(unsigned int n)
+std::string genHash(void)
 {
 	static const char alphanum[] =
 		"0123456789"
@@ -89,16 +159,8 @@ void list::genHashes(unsigned int n)
 		"abcdefghijklmnopqrstuvwxyz";
 	int stringLength = sizeof(alphanum) - 1;
 	std::string str;
-
-	hash *new_hash = new hash;
-	list HashList;
-	
-	for (unsigned int i = 0; i < n; i++) {
-		str = alphanum[rand() % stringLength]; //generacja losowego stringa z tablicy charow
-		unsigned int data = SDBMHash(str);
-		hash->data = data;
-		//HashList.addHash(Hash.data, i);
-	}
+	str = alphanum[rand() % stringLength];
+	return str;
 }
 
 double test(unsigned int v, unsigned int n){
@@ -112,12 +174,19 @@ double test(unsigned int v, unsigned int n){
 	
 	hash Hash;
 	list HashList;
-	std::string str;
+	std::string strHash;
 	double eff = 0;
 	if ( v == 1 )
 	{
-		HashList.genHashes(n);
+		for (unsigned int i = 1; i < n+1; i++) {
+			strHash = genHash();
+			Hash.data = SDBMHash(strHash);//replace with your function
+			HashList.addHash(Hash.data, i);
+		}
 		HashList.displayList();
+		HashList.compHash();//compare if eq del else do nothing
+		HashList.displayList();
+		//check efficiency
 		return eff;
 	}	
 	else if ( v == 2 )
