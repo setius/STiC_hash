@@ -15,7 +15,7 @@ hash::hash() {
 struct list {
     hash *first;  								// wskaźnik na początek listy
     void addHash(unsigned int data, int index);
-	void compHash ();
+	void compHash (unsigned int n);
     void delHash(int index);
     void displayList ();
     list();
@@ -47,52 +47,21 @@ void list::addHash(unsigned int data, int index){
     }
 }
 
-void list::compHash() {
-	int index=1;
+void list::compHash(unsigned int n) {
+	unsigned int index = 1;
 	hash *temp = first;
-	if(temp->data = temp->next->data){
-		if (index == 1)
-		{
-			first = temp->next; //poczatek listy, 1 el. wskazuje na 2 el. itd..
-		}
-		
-		// jeżeli nie jest to pierwszy element
-		if (index >= 2)
-		{
-			int j = 1;
-
-			// do usuniecia srodkowego elemetnu potrzebujemy wskaznika na osobe n-1
-			// wskaznik *temp bedzie wskaznikiem na osobe poprzedzajaca osobe usuwana
-			hash *temp = first;
-
-			while (temp)
-			{
-				// sprawdzamy czy wskaznik jest na osobie n-1 niz usuwana
-				if ((j + 1) == index) break;
-
-				// jezeli nie to przewijamy petle do przodu
+	while (index < n) {
+		if (temp->data == temp->next->data) {
+			std::cout << "powtorka" << std::endl;
+			for (unsigned int i=1; i > n-2; i++) {
+				temp->next->data = temp->next->next->data;
 				temp = temp->next;
-				j++;
 			}
-
-			// wskaznik *temp wskazuje teraz na osobe n-1
-			// nadpisujemy wkaznik osoby n na osobe n+1
-			// bezpowrotnie tracimy osobe n-ta
-
-			// dodatkowo sprawdzamy czy aby nie jest to ostatni element
-			// wtedy nalezy wyzerowac ostatni wskaznik
-			if (temp->next->next == 0)
-				temp->next = 0;
-
-			// jezeli nie byl to ostatni element
-			else
-				temp->next = temp->next->next;
+			index++;
+		} else {
+			temp = temp->next;
+			index++;
 		}
-	}
-		
-	else {
-		temp = temp->next;
-		index++;
 	}
 }
 
@@ -184,7 +153,7 @@ double test(unsigned int v, unsigned int n){
 			HashList.addHash(Hash.data, i);
 		}
 		HashList.displayList();
-		HashList.compHash();//compare if eq del else do nothing
+		HashList.compHash(n);//compare if eq del else do nothing
 		HashList.displayList();
 		//check efficiency
 		return eff;
