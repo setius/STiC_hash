@@ -50,16 +50,19 @@ void list::addHash(unsigned int data, int index){
 void list::compHash(unsigned int n) {
 	unsigned int index = 1;
 	hash *temp = first;
+	hash *check = first->next;//ustawiamy checka na drugim miejscu
 	while (index < n) {
-		if (temp->data == temp->next->data) {
+		if (temp->data == check->data) {
 			std::cout << "powtorka" << std::endl;
-			for (unsigned int i=1; i > n-2; i++) {
-				temp->next->data = temp->next->next->data;
-				temp = temp->next;
+			for (unsigned int i=1; i > n-1; i++) {
+				check->data = check->next->data; 			//do checka przypisujemy kolejna wartosc
+				check = check->next;			
 			}
+			temp = temp->next;
 			index++;
 		} else {
 			temp = temp->next;
+			check = check->next;	
 			index++;
 		}
 	}
