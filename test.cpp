@@ -1,17 +1,26 @@
 #include "test.h"
 
 const int LEN_TAB = 50;
-std::list <int> lista;
+std::list < std::vector< unsigned int > > lista;
+std::vector< unsigned int > hash;
 
 void display()
 {
+
 	//system("CLS");
 	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	std::cout << " ZAWARTOSC LISTY: " << std::endl;
 	std::cout << "---------------------------" << std::endl;
+	lista.push_back(std::vector< unsigned int >());
 
-	for (std::list<int>::iterator i = lista.begin(); i != lista.end(); ++i)
-		std::cout << std::hex << *i << " " << std::endl;
+	lista.front().push_back(255);
+
+	for (std::list<std::vector< unsigned int >>::iterator i = lista.begin(); i != lista.end(); ++i) {
+		for (std::vector< unsigned int >::iterator j = i->begin(); j != i->end(); ++j) {
+			std::cout << std::hex << *j << " " << std::endl;
+		}
+	}
+
 	std::cout << std::endl;
 	std::cout << "---------------------------" << std::endl << std::endl;
 	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
@@ -21,9 +30,9 @@ void display()
 
 void push_front()
 {
-	int liczba;
+	std::vector< unsigned int > liczba;
 	std::cout << "Podaj jaka liczbe wstawic na pocz\245tek listy: ";
-	std::cin >> liczba;
+	std::cin >> liczba.back();
 	lista.push_front(liczba);
 }
 
@@ -31,9 +40,9 @@ void push_front()
 
 void push_back()
 {
-	int liczba;
+	std::vector< unsigned int > liczba;
 	std::cout << "Podaj jaka liczbe wstawic na koniec listy: ";
-	std::cin >> liczba;
+	std::cin >> liczba.back();
 	lista.push_back(liczba);
 }
 
@@ -82,17 +91,6 @@ void empty()
 
 //---------- 8 ----------
 
-void remove()
-{
-	int liczba;
-	std::cout << "Usun z listy wszystkie liczby rowne: ";
-	std::cin >> liczba;
-	lista.remove(liczba);
-}
-
-//---------- 9 ----------
-
-
 void reverse()
 {
 	std::cout << "Nastapi odwrocenie kolejnosci liczb!";
@@ -100,7 +98,7 @@ void reverse()
 	Sleep(2000);
 }
 
-//---------- 10 ----------
+//---------- 9 ----------
 
 void exit()
 {
@@ -112,7 +110,7 @@ void exit()
 //------------------------
 
 void delEqual() {
-	std::list<int>::iterator it1, it2;
+	std::list<std::vector< unsigned int >>::iterator it1, it2;
 	it1 = it2 = lista.begin();
 	it2++;
 	while (it1!=lista.end()) {
@@ -177,7 +175,7 @@ void test(unsigned int v, unsigned int n) {
 	* eff = n-retr/n
 	*
 	*/
-	unsigned int hash;
+	std::vector< unsigned int > hash (64);
 	std::string strHash;
 	float eff, sBefore, sAfter;
 	if (v == 1)

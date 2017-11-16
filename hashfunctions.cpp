@@ -56,19 +56,19 @@ unsigned int PJWHash(const std::string& str)
 /* End Of  P. J. Weinberger Hash Function */
 
 
-unsigned int ELFHash(const std::string& str)
+std::vector< unsigned int > ELFHash(const std::string& str)
 {
-	unsigned int hash = 0;
+	std::vector< unsigned int > hash(64);
 	unsigned int x = 0;
 
 	for (std::size_t i = 0; i < str.length(); i++)
 	{
-		hash = (hash << 4) + str[i];
-		if ((x = hash & 0xF0000000L) != 0)
+		hash.at(i) = (hash.at(i) << 4) + str[i];
+		if ((x = hash.at(i) & 0xF0000000L) != 0)
 		{
-			hash ^= (x >> 24);
+			hash.at(i) ^= (x >> 24);
 		}
-		hash &= ~x;
+		hash.at(i) &= ~x;
 	}
 
 	return hash;
@@ -92,13 +92,13 @@ unsigned int BKDRHash(const std::string& str)
 
 
 /*hash function*/
-unsigned int SDBMHash(const std::string& str)
+std::vector< unsigned int >  SDBMHash(const std::string& str)
 {
-	unsigned int hash = 0;
+	std::vector< unsigned int > hash (64);
 
 	for (size_t i = 0; i < str.length(); i++)
 	{
-		hash = str[i] + (hash << 6) + (hash << 16) - hash;
+		hash.at(i) = str[i] + (hash.at(i) << 6) + (hash.at(i) << 16) - hash.at(i);
 	}
 
 	return hash;
