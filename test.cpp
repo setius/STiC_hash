@@ -11,10 +11,7 @@ void display()
 	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	std::cout << " ZAWARTOSC LISTY: " << std::endl;
 	std::cout << "---------------------------" << std::endl;
-	lista.push_back(std::vector< unsigned int >());
-
-	lista.front().push_back(255);
-
+	
 	for (std::list<std::vector< unsigned int >>::iterator i = lista.begin(); i != lista.end(); ++i) {
 		for (std::vector< unsigned int >::iterator j = i->begin(); j != i->end(); ++j) {
 			std::cout << std::hex << *j << " " << std::endl;
